@@ -1,0 +1,13 @@
+[build]
+  # Definuje příkaz pro vytvoření buildu
+  command = "npm run build"
+  # Definuje adresář, kde se nachází build výstup
+  publish = "dist"
+  # Nastavte root adresář pokud se váš projekt nenachází v kořenovém adresáři
+  # base = "your-subdirectory"
+
+[[redirects]]
+  # Přesměrování všech požadavků na index.html (pro podporu client-side routing)
+  from = "/*"
+  to = "/index.html"
+  status = 200
