@@ -1,37 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import appLogo from '/favicon.svg'
-import PWABadge from './PWABadge.jsx'
-import './App.css'
+import { useState } from 'react';
+import PWABadge from './PWABadge.jsx';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [input1, setInput1] = useState('');
+  const [input2, setInput2] = useState('');
+  const [result, setResult] = useState(null);
+  const [operation, setOperation] = useState('+');
+
+  const handleCalculate = () => {
+    let num1 = parseFloat(input1);
+    let num2 = parseFloat(input2);
+    let res = 0;
+
+    switch (operation) {
+      case '+':
+        res = num1 + num2;
+        break;
+      case '-':
+        res = num1 - num2;
+        break;
+      case '*':
+        res = num1 * num2;
+        break;
+      case '/':
+        res = num2 !== 0 ? num1 / num2 : 'Error: Division by zero';
+        break;
+      default:
+        res = 'Invalid operation';
+    }
+
+    setResult(res);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={appLogo} className="logo" alt="vite_project_pwa logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>vite_project_pwa</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="container">
+      <h1>Simple Calculator</h1>
+      <div className="calculator">
+        <input
+          type="number"
+          placeholder="Enter first number"
+          value={input1}
+          onChange={(e) => setInput1(e.target.value)}
+        />
+        <select value={operation} onChange={(e) => setOperation(e.target.value)}>
+          <option value="+">+</option>
+          <option value="-">-</option>
+          <option value="*">*</option>
+          <option value="/">/</option>
+        </select>
+        <input
+          type="number"
+          placeholder="Enter second number"
+          value={input2}
+          onChange={(e) => setInput2(e.target.value)}
+        />
+        <button onClick={handleCalculate}>
+          Calculate
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        {result !== null && (
+          <p className="result">Result: {result}</p>
+        )}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
       <PWABadge />
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
