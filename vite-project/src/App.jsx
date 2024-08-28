@@ -1,68 +1,50 @@
 import { useState } from 'react';
-import PWABadge from './PWABadge.jsx';
 import './App.css';
 
 function App() {
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [result, setResult] = useState(null);
-  const [operation, setOperation] = useState('+');
+  const [input, setInput] = useState('');
+
+  const handleClick = (value) => {
+    setInput(input + value);
+  };
+
+  const handleClear = () => {
+    setInput('');
+  };
 
   const handleCalculate = () => {
-    let num1 = parseFloat(input1);
-    let num2 = parseFloat(input2);
-    let res = 0;
-
-    switch (operation) {
-      case '+':
-        res = num1 + num2;
-        break;
-      case '-':
-        res = num1 - num2;
-        break;
-      case '*':
-        res = num1 * num2;
-        break;
-      case '/':
-        res = num2 !== 0 ? num1 / num2 : 'Error: Division by zero';
-        break;
-      default:
-        res = 'Invalid operation';
+    try {
+      setInput(String(eval(input)));
+    } catch (error) {
+      setInput('Error');
     }
-
-    setResult(res);
   };
 
   return (
-    <div className="container">
-      <h1>Simple Calculator</h1>
-      <div className="calculator">
-        <input
-          type="number"
-          placeholder="Enter first number"
-          value={input1}
-          onChange={(e) => setInput1(e.target.value)}
-        />
-        <select value={operation} onChange={(e) => setOperation(e.target.value)}>
-          <option value="+">+</option>
-          <option value="-">-</option>
-          <option value="*">*</option>
-          <option value="/">/</option>
-        </select>
-        <input
-          type="number"
-          placeholder="Enter second number"
-          value={input2}
-          onChange={(e) => setInput2(e.target.value)}
-        />
-        <button onClick={handleCalculate}>
-          Calculate
-        </button>
-        {result !== null && (
-          <p className="result">Result: {result}</p>
-        )}
+    <div className="calculator">
+      <div className="display">
+        <span>{input || '0'}</span>
       </div>
-      <PWABadge />
+      <div className="buttons">
+        <button className="button light" onClick={handleClear}>C</button>
+        <button className="button light" onClick={() => handleClick('%')}>%</button>
+        <button className="button light" onClick={() => handleClick('/')}>÷</button>
+        <button className="button dark" onClick={() => handleClick('7')}>7</button>
+        <button className="button dark" onClick={() => handleClick('8')}>8</button>
+        <button className="button dark" onClick={() => handleClick('9')}>9</button>
+        <button className="button light" onClick={() => handleClick('*')}>×</button>
+        <button className="button dark" onClick={() => handleClick('4')}>4</button>
+        <button className="button dark" onClick={() => handleClick('5')}>5</button>
+        <button className="button dark" onClick={() => handleClick('6')}>6</button>
+        <button className="button light" onClick={() => handleClick('-')}>-</button>
+        <button className="button dark" onClick={() => handleClick('1')}>1</button>
+        <button className="button dark" onClick={() => handleClick('2')}>2</button>
+        <button className="button dark" onClick={() => handleClick('3')}>3</button>
+        <button className="button light" onClick={() => handleClick('+')}>+</button>
+        <button className="button dark wide" onClick={() => handleClick('0')}>0</button>
+        <button className="button dark" onClick={() => handleClick('.')}>.</button>
+        <button className="button red" onClick={handleCalculate}>=</button>
+      </div>
     </div>
   );
 }
